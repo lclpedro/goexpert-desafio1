@@ -5,9 +5,10 @@ import (
 	"encoding/json"
 	"fmt"
 	"io"
-	"net/http"
 	"os"
 	"time"
+
+	"github.com/lclpedro/goexpert-desafios/pkg/requester"
 )
 
 type CurrencyQuote struct {
@@ -18,11 +19,8 @@ func main() {
 	ctx, cancel := context.WithTimeout(context.Background(), time.Duration(300*time.Millisecond))
 	defer cancel()
 
-	endpoint, err := http.NewRequestWithContext(ctx, http.MethodGet, "http://localhost:8080/cotacao", nil)
-	if err != nil {
-		panic(err)
-	}
-	request, err := http.DefaultClient.Do(endpoint)
+	client := requester.NewRequester(ctx)
+	request, err := client.Get("http://127.0.0.1:8080/cotacao")
 	if err != nil {
 		panic(err)
 	}
