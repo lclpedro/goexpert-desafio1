@@ -1,4 +1,4 @@
-module github.com/lclpedro/goexpert-desafios
+module github.com/lclpedro/goexpert-desafios/desafio1
 
 go 1.19
 

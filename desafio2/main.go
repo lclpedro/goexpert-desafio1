@@ -6,7 +6,7 @@ import (
 	"io"
 	"time"
 
-	"github.com/lclpedro/goexpert-desafios/pkg/requester"
+	"github.com/lclpedro/goexpert-desafios/desafio2/pkg/requester"
 )
 
 /** Neste desafio você terá que usar o que aprendemos com

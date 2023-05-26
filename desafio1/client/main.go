@@ -8,7 +8,7 @@ import (
 	"os"
 	"time"
 
-	"github.com/lclpedro/goexpert-desafios/pkg/requester"
+	"github.com/lclpedro/goexpert-desafios/desafio1/pkg/requester"
 )
 
 type CurrencyQuote struct {
@@ -16,7 +16,8 @@ type CurrencyQuote struct {
 }
 
 func main() {
-	ctx, cancel := context.WithTimeout(context.Background(), time.Duration(300*time.Millisecond))
+	ctx, cancel := context.WithTimeout(
+		context.Background(), time.Duration(300*time.Millisecond))
 	defer cancel()
 
 	client := requester.NewRequester(ctx)

@@ -11,7 +11,7 @@ import (
 	"github.com/jmoiron/sqlx"
 	_ "github.com/mattn/go-sqlite3"
 
-	"github.com/lclpedro/goexpert-desafios/pkg/requester"
+	"github.com/lclpedro/goexpert-desafios/desafio1/pkg/requester"
 )
 
 var DB *sqlx.DB
@@ -52,7 +52,9 @@ func GetQuote(w http.ResponseWriter, r *http.Request) {
 	fmt.Println("GetQuote")
 	defer fmt.Println("GetQuote Finish")
 
-	ctx, cancel := context.WithTimeout(context.Background(), time.Duration(200*time.Millisecond))
+	ctx, cancel := context.WithTimeout(
+		context.Background(), time.Duration(200*time.Millisecond),
+	)
 	defer cancel()
 
 	client := requester.NewRequester(ctx)
