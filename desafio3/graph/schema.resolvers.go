@@ -6,26 +6,43 @@ package graph
 
 import (
 	"context"
-	"fmt"
 
 	"github.com/lclpedro/scaffold-golang-fiber/graph/model"
 )
 
-// CreateTodo is the resolver for the createTodo field.
-func (r *mutationResolver) CreateTodo(ctx context.Context, input model.NewTodo) (*model.Todo, error) {
-	panic(fmt.Errorf("not implemented: CreateTodo - createTodo"))
+// Orders is the resolver for the orders field.
+func (r *queryResolver) Orders(ctx context.Context) ([]*model.Order, error) {
+	output, err := r.OrdersService.GetAllOrders(ctx)
+	if err != nil {
+		return []*model.Order{}, err
+	}
+
+	var orders []*model.Order
+	for _, order := range output {
+		orders = append(orders, &model.Order{
+			ID:    order.ID,
+			Name:  order.Name,
+			Price: order.Price,
+		})
+	}
+	return orders, nil
 }
 
-// Todos is the resolver for the todos field.
-func (r *queryResolver) Todos(ctx context.Context) ([]*model.Todo, error) {
-	panic(fmt.Errorf("not implemented: Todos - todos"))
+// Order is the resolver for the order field.
+func (r *queryResolver) Order(ctx context.Context, id string) (*model.Order, error) {
+	output, err := r.OrdersService.GetOrder(ctx, id)
+	if err != nil {
+		return &model.Order{}, err
+	}
+	order := &model.Order{
+		ID:    output.ID,
+		Name:  output.Name,
+		Price: output.Price,
+	}
+	return order, err
 }
-
-// Mutation returns MutationResolver implementation.
-func (r *Resolver) Mutation() MutationResolver { return &mutationResolver{r} }
 
 // Query returns QueryResolver implementation.
 func (r *Resolver) Query() QueryResolver { return &queryResolver{r} }
 
-type mutationResolver struct{ *Resolver }
 type queryResolver struct{ *Resolver }
