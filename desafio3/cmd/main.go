@@ -4,6 +4,7 @@ import (
 	_ "github.com/go-sql-driver/mysql"
 	"github.com/gofiber/fiber/v2"
 	"github.com/lclpedro/scaffold-golang-fiber/cmd/graphql"
+	"github.com/lclpedro/scaffold-golang-fiber/cmd/grpc"
 	"github.com/lclpedro/scaffold-golang-fiber/cmd/rest"
 	"github.com/lclpedro/scaffold-golang-fiber/configs"
 	"github.com/lclpedro/scaffold-golang-fiber/pkg/mysql"
@@ -26,6 +27,7 @@ func main() {
 	connMysql, err := mysql.NewConnection(write, read)
 	checkError(err)
 
+	go grpc.NewGRPCServer(connMysql).Start()
 	rest.NewAPIServer(app, connMysql).Start()
 	graphql.NewGraphQLServer(app, connMysql).Start()
 

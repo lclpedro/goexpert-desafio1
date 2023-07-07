@@ -8,6 +8,7 @@ import (
 type Repository interface {
 	GetAll() ([]*domains.Orders, error)
 	GetByID(id string) (*domains.Orders, error)
+	Create(order *domains.Orders) error
 }
 
 type ordersRepository struct {
