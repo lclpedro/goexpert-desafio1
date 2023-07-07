@@ -6,9 +6,26 @@ package graph
 
 import (
 	"context"
+	"github.com/lclpedro/scaffold-golang-fiber/internal/application/services/orders"
 
 	"github.com/lclpedro/scaffold-golang-fiber/graph/model"
 )
+
+// CreateOrder is the resolver for the createOrder field.
+func (r *mutationResolver) CreateOrder(ctx context.Context, input model.NewOrder) (*model.Order, error) {
+	order, err := r.OrdersService.CreateOrder(ctx, orders.Input{
+		Name:  input.Name,
+		Price: input.Price,
+	})
+	if err != nil {
+		return &model.Order{}, err
+	}
+	return &model.Order{
+		ID:    order.ID,
+		Name:  order.Name,
+		Price: order.Price,
+	}, nil
+}
 
 // Orders is the resolver for the orders field.
 func (r *queryResolver) Orders(ctx context.Context) ([]*model.Order, error) {
@@ -42,7 +59,11 @@ func (r *queryResolver) Order(ctx context.Context, id string) (*model.Order, err
 	return order, err
 }
 
+// Mutation returns MutationResolver implementation.
+func (r *Resolver) Mutation() MutationResolver { return &mutationResolver{r} }
+
 // Query returns QueryResolver implementation.
 func (r *Resolver) Query() QueryResolver { return &queryResolver{r} }
 
+type mutationResolver struct{ *Resolver }
 type queryResolver struct{ *Resolver }

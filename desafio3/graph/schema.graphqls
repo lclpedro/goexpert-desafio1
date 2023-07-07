@@ -4,7 +4,16 @@ type Order {
   price: Float!
 }
 
+input NewOrder {
+  name: String!
+  price: Float!
+}
+
 type Query {
   orders: [Order!]!
   order(id: String!): Order!
+}
+
+type Mutation {
+  createOrder(input: NewOrder!): Order!
 }

@@ -2,6 +2,11 @@
 
 package model
 
+type NewOrder struct {
+	Name  string  `json:"name"`
+	Price float64 `json:"price"`
+}
+
 type Order struct {
 	ID    string  `json:"id"`
 	Name  string  `json:"name"`
