@@ -1,12 +1,28 @@
-version: "3.1"
+version: "3.8"
 services:
-    mysql:
-        image: mysql:8.0.25
-        platform: linux/amd64
+
+    application:
+        build:
+            context: .
+            dockerfile: Dockerfile
+        depends_on:
+            - mysql
+        working_dir: /app
         environment:
-            MYSQL_ROOT_PASSWORD: root
-            MYSQL_PASSWORD: root
-            MYSQL_DATABASE: orders
-            MYSQL_ROOT_HOST: "%"
+            - DB_HOSTNAME=mysql:3306
+            - DB_PASSWORD=root
         ports:
-            - "3306:3306"
+            - 50051:50051
+            - 8080:8080
+        expose:
+            - 50051
+            - 8080
+
+    mysql:
+        image: mysql:8
+        restart: unless-stopped
+        environment:
+            - MYSQL_ROOT_PASSWORD=root
+            - MYSQL_DATABASE=orders
+        volumes:
+            - ./migrations/0001-initial-database.sql:/docker-entrypoint-initdb.d/0001-initial-database.sql

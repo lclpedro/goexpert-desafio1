@@ -1,1 +1,29 @@
-GET localhost:8080/orders
+### Rest list order
+GET http://localhost:8080/orders
+
+### GraphQL Create Order
+POST http://localhost:8080/query
+Content-Type: application/json;charset=UTF-8
+Strict-Transport-Security: max-age=15724800; includeSubDomain
+
+{
+  "query": "mutation{\n  createOrder(input:{\n    name:\"NewProduct with GraphQL\",\n    price: 500,\n  }){\n    id\n    name\n    price\n  }\n}"
+}
+
+### GraphQL Get All Orders
+POST http://127.0.0.1:8080/query
+Content-Type: application/json;charset=UTF-8
+Strict-Transport-Security: max-age=15724800; includeSubDomain
+
+{
+  "query": "{orders{id name price}}"
+}
+
+### GraphQL Get Order By Id
+POST http://127.0.0.1:8080/query
+Content-Type: application/json;charset=UTF-8
+Strict-Transport-Security: max-age=15724800; includeSubDomain
+
+{
+    "query": "{order(id: \"f060f2c8-b6e8-4569-b5b4-481f1aad7a82\"){id name price}}"
+}
